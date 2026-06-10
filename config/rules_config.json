@@ -1,0 +1,9 @@
+{
+  "trusted_subnets": [
+    "192.168.1.0/24",
+    "10.0.0.0/16"
+  ],
+  "min_packets_threshold": 3,
+  "min_bytes_threshold": 512,
+  "threat_intel_threshold": 70
+}
