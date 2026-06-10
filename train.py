@@ -5,6 +5,7 @@ from sklearn.metrics import classification_report, roc_auc_score
 import numpy as np
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print(f"🔥 Mô hình AI đang chạy trên: {device}")
 
 train_size = 60
 train_graphs = dataset[:train_size]
