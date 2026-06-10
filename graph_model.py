@@ -8,7 +8,6 @@ class GraphSAGEForEdgeClassification(nn.Module):
         super(GraphSAGEForEdgeClassification, self).__init__()
         self.conv1 = SAGEConv(in_channels, hidden_channels)
         self.conv2 = SAGEConv(hidden_channels, hidden_channels)
-
         self.classifier = nn.Linear(hidden_channels * 2, 1)
 
     def forward(self, x, edge_index):
@@ -22,6 +21,5 @@ class GraphSAGEForEdgeClassification(nn.Module):
         edge_feat_destination = h[col]
 
         edge_representation = torch.cat([edge_feat_source, edge_feat_destination], dim=-1)
-
         out = self.classifier(edge_representation).squeeze(-1)
         return out
