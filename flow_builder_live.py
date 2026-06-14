@@ -56,12 +56,12 @@ def flow_builder_live(flow_queue):
             group = pd.DataFrame(flows)
 
             flow_queue.put(
-                (start_window.floor("5min"), group)
+                (start_window.floor("30s"), group)
             )
 
             print(
                 f"[Live Flow Builder] "
-                f"Window={start_window.floor('5min')} "
+                f"Window={start_window.floor('30s')} "
                 f"Flows={len(group)}"
             )
 

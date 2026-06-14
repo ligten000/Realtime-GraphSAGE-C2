@@ -1,4 +1,5 @@
 import torch
+import time
 from torch_geometric.data import Data
 
 def graph_builder(flow_queue, graph_queue):
@@ -11,7 +12,7 @@ def graph_builder(flow_queue, graph_queue):
             break
 
         window, group = item
-
+        start_time = time.perf_counter()
         # Tạo nhãn số hóa: 1 cho Botnet, 0 cho Luồng sạch
         group["y"] = group["Label"].apply(
             lambda x: 1 if "Botnet" in str(x) else 0
@@ -84,7 +85,19 @@ def graph_builder(flow_queue, graph_queue):
             window_id=str(window),
             ips_list=ips_list   
         )
+        update_cost = time.perf_counter() - start_time
 
+        with open("graph_cost.csv", "a") as f:
+            f.write(
+                f"{window},{graph.num_nodes},{graph.num_edges},{update_cost:.6f}\n"
+            )
+
+        print(
+            f"[Graph Update Cost] "
+            f"{update_cost:.6f}s | "
+            f"Nodes={graph.num_nodes} | "
+            f"Edges={graph.num_edges}"
+        )
         graph_queue.put(graph)
         print(f"[Graph Builder] Tạo đồ thị Window {window} thành công (Nodes={graph.num_nodes}, Edges={graph.num_edges})")
 # import torch
